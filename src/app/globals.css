@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-cream: #f2ebd9;
+  --color-cream-dark: #e8dfc8;
+  --color-blue: #4a6b8a;
+  --color-navy: #3a5570;
+  --font-sans: var(--font-source-sans);
+  --font-serif: var(--font-cormorant);
+}
+
+html,
+body {
+  background: #f2ebd9;
+  color: #3a5570;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-source-sans), "Source Sans 3", sans-serif;
+}
+
+h1,
+h2,
+h3,
+.font-serif {
+  font-family: var(--font-cormorant), "Cormorant Garamond", serif;
+}
+
+input,
+button,
+select,
+textarea {
+  font: inherit;
+}
+
+::selection {
+  background: #4a6b8a;
+  color: #f2ebd9;
+}
+
+.qr-wrap svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+#club-qr-reader video {
+  width: 100% !important;
+  border-radius: 0;
+  object-fit: cover;
+}
+
+#club-qr-reader {
+  border: 0 !important;
+}
