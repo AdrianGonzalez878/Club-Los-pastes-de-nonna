@@ -21,13 +21,13 @@ export function SiteFooter() {
           rel="noopener noreferrer"
           className="cn-by"
         >
-          <span className="cn-by-badge" aria-hidden="true">
+          <span className="cn-by-badge">
             <Image
-              src="/arga-mark.png"
-              alt=""
-              width={88}
-              height={88}
-              className="cn-by-mark"
+              src="/arga.png"
+              alt="ARGA"
+              width={631}
+              height={527}
+              className="cn-by-logo"
             />
           </span>
           <span>
