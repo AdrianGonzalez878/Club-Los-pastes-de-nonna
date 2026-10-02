@@ -1028,8 +1028,10 @@ textarea {
 
 .cn-by {
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 14px;
   font-size: 12.5px;
   color: rgba(242, 235, 217, 0.75);
   letter-spacing: 0.04em;
@@ -1048,18 +1050,20 @@ textarea {
 
 .cn-by-badge {
   flex: none;
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
+  width: 136px;
+  height: 114px;
+  border-radius: 12px;
   background: var(--cream);
-  display: grid;
-  place-items: center;
+  overflow: hidden;
+  display: block;
 }
 
-.cn-by-mark {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
+.cn-by-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
 }
 
 .cn-by b {

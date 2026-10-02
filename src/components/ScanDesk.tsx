@@ -34,6 +34,38 @@ export function ScanDesk({ configured, initialSession }: ScanDeskProps) {
     clear: () => Promise<void> | void;
   } | null>(null);
 
+  const releaseScanner = useCallback(async () => {
+    const scanner = scannerRef.current;
+    scannerRef.current = null;
+    if (!scanner) return;
+
+    try {
+      await scanner.stop();
+    } catch {
+      // Ya estaba detenido o el video se desmontó.
+    }
+
+    try {
+      const cleared = scanner.clear();
+      if (cleared && typeof (cleared as Promise<void>).then === "function") {
+        await cleared;
+      }
+    } catch {
+      // html5-qrcode lanza si el nodo #club-qr-reader ya no está.
+    }
+
+    const root = document.getElementById("club-qr-reader");
+    if (!root) return;
+    root.querySelectorAll("video").forEach((video) => {
+      const stream = video.srcObject;
+      if (stream instanceof MediaStream) {
+        stream.getTracks().forEach((track) => track.stop());
+      }
+      video.srcObject = null;
+    });
+    root.replaceChildren();
+  }, []);
+
   const lookup = useCallback(async (raw: string) => {
     const code = extractCodeFromScan(raw);
     if (!isValidCode(code) || lastScan.current === code) return;
@@ -77,7 +109,7 @@ export function ScanDesk({ configured, initialSession }: ScanDeskProps) {
     async function startCamera() {
       try {
         const { Html5Qrcode } = await import("html5-qrcode");
-        if (cancelled) return;
+        if (cancelled || !document.getElementById("club-qr-reader")) return;
         const scanner = new Html5Qrcode("club-qr-reader");
         scannerRef.current = scanner;
         await scanner.start(
@@ -88,13 +120,17 @@ export function ScanDesk({ configured, initialSession }: ScanDeskProps) {
           },
           () => undefined,
         );
-        if (!cancelled) setCameraError("");
-      } catch {
-        if (!cancelled) {
-          setCameraError(
-            "No se pudo abrir la cámara. Escribe el código a mano.",
-          );
+        if (cancelled) {
+          await releaseScanner();
+          return;
         }
+        setCameraError("");
+      } catch {
+        await releaseScanner();
+        if (cancelled) return;
+        setCameraError(
+          "No se pudo abrir la cámara. Escribe el código a mano.",
+        );
       }
     }
 
@@ -102,14 +138,9 @@ export function ScanDesk({ configured, initialSession }: ScanDeskProps) {
 
     return () => {
       cancelled = true;
-      const scanner = scannerRef.current;
-      scannerRef.current = null;
-      if (scanner) {
-        void scanner.stop().catch(() => undefined);
-        void scanner.clear();
-      }
+      void releaseScanner();
     };
-  }, [lookup, scanning, session]);
+  }, [lookup, releaseScanner, scanning, session]);
 
   async function login(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -150,10 +181,15 @@ export function ScanDesk({ configured, initialSession }: ScanDeskProps) {
   }
 
   async function logout() {
-    await fetch("/api/staff/logout", { method: "POST" });
+    setScanning(false);
+    await releaseScanner();
+    try {
+      await fetch("/api/staff/logout", { method: "POST" });
+    } catch {
+      // Igual cerramos la sesión en este dispositivo.
+    }
     setSession(null);
     setCard(null);
-    setScanning(false);
     setNotice("");
     lastScan.current = "";
   }
