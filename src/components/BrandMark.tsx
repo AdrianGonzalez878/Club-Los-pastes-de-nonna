@@ -8,36 +8,37 @@ type BrandMarkProps = {
   size?: "sm" | "md";
 };
 
-export function BrandMark({ href = "/", size = "md" }: BrandMarkProps) {
-  const logo = size === "sm" ? 112 : 156;
+export function BrandMark({ href = "/lealtad", size = "md" }: BrandMarkProps) {
+  const px = size === "sm" ? 100 : 124;
 
   return (
-    <div className="flex flex-col items-center gap-2">
-      <Link href={href} className="flex flex-col items-center gap-2">
+    <div className="flex min-w-0 items-center gap-3">
+      <Link href={href} className="shrink-0 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue">
         <Image
           src="/logo.png"
           alt="Los Pastes de Nonna"
-          width={logo}
-          height={logo}
+          width={px}
+          height={px}
           priority
-          className="h-auto w-auto"
+          className="cn-top-logo"
         />
-        <p
-          className={`font-serif tracking-wide text-navy ${
-            size === "sm" ? "text-2xl" : "text-4xl"
-          }`}
+      </Link>
+      <div className="min-w-0">
+        <Link
+          href={href}
+          className="cn-brand block rounded-sm no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue"
         >
           Club Nonna
-        </p>
-      </Link>
-      <a
-        href={NONNA_SITE}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-[11px] uppercase tracking-[0.22em] text-blue underline-offset-2 hover:underline"
-      >
-        Los Pastes de Nonna
-      </a>
+        </Link>
+        <a
+          href={NONNA_SITE}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="cn-brand-sub"
+        >
+          Los Pastes de Nonna
+        </a>
+      </div>
     </div>
   );
 }
