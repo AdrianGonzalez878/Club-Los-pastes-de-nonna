@@ -1,6 +1,6 @@
 export function ConfigBanner() {
   return (
-    <aside className="rounded-2xl border border-blue/20 bg-cream-dark px-4 py-3 text-sm leading-6 text-navy">
+    <aside className="rounded-2xl border border-blue/20 bg-paper px-4 py-3 text-sm leading-6 text-navy">
       <p className="font-semibold">Todavía no está conectado</p>
       <p className="mt-1 text-blue">
         Faltan las llaves de Supabase o los secretos de caja. Copia{" "}

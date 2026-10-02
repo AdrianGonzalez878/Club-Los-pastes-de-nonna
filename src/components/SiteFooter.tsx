@@ -4,24 +4,35 @@ const ARGA_SITE = "https://argaweb.com";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-auto shrink-0 px-5 py-8 text-center text-xs leading-5 text-blue">
-      <p>Programa de visitas · Oaxaca de Juárez</p>
-      <p className="mt-4">
+    <footer className="cn-footer">
+      <Image
+        src="/logo.png"
+        alt="Los Pastes de Nonna"
+        width={168}
+        height={168}
+        className="cn-footer-logo cn-logo-on-dark"
+      />
+      <p className="cn-footer-p">Programa de visitas · Oaxaca de Juárez</p>
+      <hr className="cn-footer-hr" />
+      <p>
         <a
           href={ARGA_SITE}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-1.5 text-navy"
+          className="cn-by"
         >
-          <span>Powered by</span>
-          <Image
-            src="/arga.png"
-            alt=""
-            width={631}
-            height={527}
-            className="h-10 w-auto shrink-0 object-contain"
-          />
-          <span>ARGA | Desarrollo de software</span>
+          <span className="cn-by-badge" aria-hidden="true">
+            <Image
+              src="/arga-mark.png"
+              alt=""
+              width={88}
+              height={88}
+              className="cn-by-mark"
+            />
+          </span>
+          <span>
+            Powered by <b>ARGA</b> | Desarrollo de software
+          </span>
         </a>
       </p>
     </footer>

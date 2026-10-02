@@ -1,13 +1,9 @@
 "use client";
 
-import { useState, useSyncExternalStore } from "react";
-import Link from "next/link";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { readSavedCode } from "@/lib/storage";
-
-function subscribeSavedCode() {
-  return () => undefined;
-}
+import { ArrowIcon, CheckNoteIcon } from "@/components/LoyaltyIcons";
+import { SavedCardLink } from "@/components/SavedCardLink";
 
 type RegisterFormProps = {
   configured: boolean;
@@ -20,11 +16,6 @@ export function RegisterForm({ configured }: RegisterFormProps) {
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [pending, setPending] = useState(false);
-  const savedCode = useSyncExternalStore(
-    subscribeSavedCode,
-    readSavedCode,
-    () => null,
-  );
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -76,70 +67,73 @@ export function RegisterForm({ configured }: RegisterFormProps) {
   }
 
   return (
-    <form onSubmit={onSubmit} className="flex w-full flex-col gap-4">
-      {savedCode ? (
-        <Link
-          href={`/lealtad/${savedCode}`}
-          className="rounded-2xl border border-blue/20 bg-cream-dark px-4 py-3 text-center text-sm font-medium text-navy"
-        >
-          Abrir mi tarjeta
-        </Link>
-      ) : null}
-
-      <label className="flex flex-col gap-2 text-sm">
-        <span className="font-medium">Tu nombre</span>
+    <form onSubmit={onSubmit} className="cn-form">
+      <div className="cn-field">
+        <label htmlFor="cn-nombre" className="cn-field-label">
+          Tu nombre
+        </label>
         <input
+          id="cn-nombre"
           name="name"
-          autoComplete="name"
+          type="text"
+          autoComplete="given-name"
           required
           minLength={2}
           maxLength={60}
           value={name}
           onChange={(event) => setName(event.target.value)}
-          placeholder="Como te gusta que te llamen"
-          className="h-12 rounded-2xl border border-blue/15 bg-white px-4 text-base text-navy outline-none ring-navy/20 placeholder:text-blue/40 focus:ring-2"
+          placeholder="Cómo te gusta que te llamen"
+          className="cn-input"
         />
-      </label>
+      </div>
 
-      <label className="flex flex-col gap-2 text-sm">
-        <span className="font-medium">WhatsApp</span>
-        <div className="flex overflow-hidden rounded-2xl border border-blue/15 bg-white focus-within:ring-2 focus-within:ring-navy/20">
-          <span className="flex items-center bg-cream-dark px-3 text-sm text-blue">
+      <div className="cn-field">
+        <label htmlFor="cn-whatsapp" className="cn-field-label">
+          WhatsApp
+          <span className="sr-only">, código de país más 52</span>
+        </label>
+        <div className="cn-phone">
+          <span className="cn-cc" aria-hidden="true">
             +52
           </span>
           <input
+            id="cn-whatsapp"
             name="whatsapp"
+            type="tel"
             inputMode="numeric"
-            autoComplete="tel"
+            autoComplete="tel-national"
             required
-            maxLength={12}
+            maxLength={10}
             value={whatsapp}
             onChange={(event) =>
               setWhatsapp(event.target.value.replace(/\D/g, "").slice(0, 10))
             }
             placeholder="10 dígitos"
-            className="h-12 w-full bg-transparent px-4 text-base text-navy outline-none placeholder:text-blue/40"
+            className="cn-input"
+            aria-describedby="cn-whatsapp-note"
           />
         </div>
-        <span className="text-xs text-blue">
-          Si ya te registraste, usamos la misma tarjeta.
-        </span>
-      </label>
+      </div>
+
+      <p className="cn-note" id="cn-whatsapp-note">
+        <CheckNoteIcon />
+        Si ya te registraste, usamos la misma tarjeta
+      </p>
 
       {error ? (
-        <p className="rounded-2xl bg-navy px-4 py-3 text-sm text-cream" role="alert">
+        <p className="cn-alert" role="alert">
           {error}
         </p>
       ) : null}
-      {notice ? <p className="text-sm text-blue">{notice}</p> : null}
+      {notice ? <p className="cn-notice">{notice}</p> : null}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="h-13 rounded-full bg-navy px-5 py-3.5 text-base font-semibold text-cream disabled:opacity-60"
-      >
+      <button type="submit" disabled={pending} className="cn-btn cn-btn-blue cn-btn-block">
         {pending ? "Abriendo tu tarjeta…" : "Quiero mi tarjeta"}
+        {pending ? null : <ArrowIcon className="cn-ico" />}
       </button>
+      <SavedCardLink className="cn-btn cn-btn-sand cn-btn-block">
+        Abrir mi tarjeta
+      </SavedCardLink>
     </form>
   );
 }

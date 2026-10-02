@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
-import { Cormorant_Garamond, Source_Sans_3 } from "next/font/google";
+import { Cormorant_Garamond, Dancing_Script, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 
 const sourceSans = Source_Sans_3({
@@ -16,6 +16,13 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
+const dancing = Dancing_Script({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-dancing",
+  display: "swap",
+});
+
 export const viewport: Viewport = {
   themeColor: "#f2ebd9",
 };
@@ -26,7 +33,7 @@ export const metadata: Metadata = {
     template: "%s · Club Nonna",
   },
   description:
-    "Programa de visitas de Los Pastes de Nonna en Oaxaca de Juárez. Junta 5 visitas y llévate un paste de regalo.",
+    "Programa de visitas de Los Pastes de Nonna en Oaxaca de Juárez. Junta visitas y llévate premios.",
   applicationName: "Club Nonna",
   metadataBase: new URL("https://club.lospastesdenona.com"),
   icons: {
@@ -59,7 +66,7 @@ export default function RootLayout({
   return (
     <html
       lang="es-MX"
-      className={`${sourceSans.variable} ${cormorant.variable} h-full antialiased`}
+      className={`${sourceSans.variable} ${cormorant.variable} ${dancing.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-cream font-sans text-navy">
         {children}

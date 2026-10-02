@@ -1,31 +1,85 @@
-import { BrandMark } from "@/components/BrandMark";
 import { ConfigBanner } from "@/components/ConfigBanner";
+import { HowItWorks } from "@/components/HowItWorks";
+import { ArrowIcon, PasteIcon } from "@/components/LoyaltyIcons";
+import { PageShell } from "@/components/PageShell";
 import { RegisterForm } from "@/components/RegisterForm";
-import { SiteFooter } from "@/components/SiteFooter";
+import { SavedCardLink } from "@/components/SavedCardLink";
+import { StampCard } from "@/components/StampCard";
 
 export function RegisterScreen({ configured }: { configured: boolean }) {
   return (
-    <div className="mx-auto flex min-h-full w-full max-w-md flex-col px-5 py-10">
-      <BrandMark />
-      <main className="mt-8 flex flex-1 flex-col gap-6">
-        {!configured ? <ConfigBanner /> : null}
-        <section className="rounded-[2rem] border border-blue/10 bg-white/70 px-5 py-6">
-          <p className="text-center text-xs uppercase tracking-[0.2em] text-blue">
-            Oaxaca de Juárez
-          </p>
-          <h1 className="mt-2 text-center font-serif text-4xl leading-tight">
-            Junta visitas, llévate un paste
-          </h1>
-          <p className="mx-auto mt-3 max-w-sm text-center text-sm leading-6 text-blue">
-            En cualquier sucursal te sellamos la tarjeta. A la quinta visita te
-            llevas un paste de regalo. El ciclo vuelve a empezar.
-          </p>
-          <div className="mt-6">
+    <PageShell>
+      <main className="cn-main" id="contenido">
+        <section className="cn-hero">
+          <div className="cn-hero-pat cn-hero-pat-t" aria-hidden="true" />
+          <div className="cn-hero-pat cn-hero-pat-b" aria-hidden="true" />
+          <div className="cn-hero-in">
+            <div className="cn-hero-grid">
+              <div>
+                <p className="cn-eyebrow cn-label">Oaxaca de Juárez</p>
+                <h1>
+                  <span className="cn-hero-line">Junta visitas,</span>
+                  <span className="cn-hero-line">llévate</span>
+                  <span className="cn-script">premios</span>
+                </h1>
+                <p className="cn-lead">
+                  En cualquier sucursal te sellamos la tarjeta. A la{" "}
+                  <b>quinta visita</b> eliges una salsa, un café o un refresco. A
+                  la <b>décima</b> te llevas un paste de regalo y el ciclo vuelve
+                  a empezar.
+                </p>
+                <div className="cn-cta">
+                  <a className="cn-btn cn-btn-cream" href="#registro">
+                    Quiero mi tarjeta <ArrowIcon className="cn-ico" />
+                  </a>
+                  <SavedCardLink className="cn-btn cn-btn-ghost">
+                    Abrir mi tarjeta
+                  </SavedCardLink>
+                </div>
+              </div>
+              <StampCard mode="preview" stamps={3} visitsRequired={10} />
+            </div>
+          </div>
+        </section>
+
+        <HowItWorks />
+
+        <div className="cn-tex-band" aria-hidden="true" />
+
+        <section className="cn-join" id="registro" aria-label="Empieza tu tarjeta">
+          {!configured ? (
+            <div className="cn-join-banner">
+              <ConfigBanner />
+            </div>
+          ) : null}
+          <div className="cn-join-in">
+            <div className="cn-join-art">
+              <div className="cn-sec-h">
+                <span className="cn-label">Club Nonna</span>
+                <h2>
+                  Empieza
+                  <br />
+                  tu <span className="cn-script">tarjeta</span>
+                </h2>
+                <div className="cn-rule" aria-hidden="true">
+                  <i />
+                </div>
+              </div>
+              <PasteIcon className="cn-paste-art cn-ico" />
+            </div>
+            <div className="cn-sec-h cn-m-only">
+              <span className="cn-label">Club Nonna</span>
+              <h2>
+                Empieza tu <span className="cn-script">tarjeta</span>
+              </h2>
+              <div className="cn-rule" aria-hidden="true">
+                <i />
+              </div>
+            </div>
             <RegisterForm configured={configured} />
           </div>
         </section>
       </main>
-      <SiteFooter />
-    </div>
+    </PageShell>
   );
 }
