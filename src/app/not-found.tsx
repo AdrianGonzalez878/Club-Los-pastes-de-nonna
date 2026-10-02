@@ -5,7 +5,7 @@ export default function NotFound() {
   return (
     <PageShell>
       <main className="cn-main" id="contenido">
-        <div className="cn-simple items-center text-center">
+        <div className="cn-simple flex-1 items-center justify-center text-center">
           <section className="cn-panel w-full">
             <h1 className="font-serif text-4xl text-blue">No está esa página</h1>
             <p className="mt-3 text-base leading-7 text-navy">

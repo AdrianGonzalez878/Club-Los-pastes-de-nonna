@@ -936,8 +936,10 @@ textarea {
 
 /* inner pages */
 .cn-main {
+  display: flex;
   flex: 1;
   width: 100%;
+  flex-direction: column;
 }
 
 .cn-simple {
@@ -1044,11 +1046,20 @@ textarea {
   border-radius: 8px;
 }
 
-.cn-by-mark {
-  width: 22px;
-  height: 22px;
-  object-fit: contain;
+.cn-by-badge {
   flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--cream);
+  display: grid;
+  place-items: center;
+}
+
+.cn-by-mark {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
 }
 
 .cn-by b {
